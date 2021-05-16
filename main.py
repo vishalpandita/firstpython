@@ -1,20 +1,24 @@
 from flask import Flask
-from flask import request, escape
+from flask import request
 app = Flask(__name__)
 @app.route("/")
 def index():
-    celsius = str(escape(request.args.get("celsius", "")))
+    celsius = request.args.get("celsius", "")
+    if celsius:
+        fahrenheit = fahrenheit_from(celsius)
+    else:
+        fahrenheit = ""
     return (
         """<form action="" method="get">
                 <input type="text" name="celsius"
                 <br>
                 <input type="submit" value="Convert">
                </form>"""
-            + celsius + str(request.args)
+            + "Fahrenheit: " + fahrenheit
     )
 
-@app.route("/<int:celsius>")
-def faahrenheit_from(celsius):
+#route decorator has been removed
+def fahrenheit_from(celsius):
     """Convert Celsius to Fahrenheit degress."""
     try:
         fahrenheit = float(celsius) * 9/5 +32
