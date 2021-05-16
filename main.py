@@ -1,8 +1,17 @@
 from flask import Flask
+from flask import request, escape
 app = Flask(__name__)
 @app.route("/")
 def index():
-    return "Congratulations! It's a web applicaiton"
+    celsius = str(escape(request.args.get("celsius", "")))
+    return (
+        """<form action="" method="get">
+                <input type="text" name="celsius"
+                <br>
+                <input type="submit" value="Convert">
+               </form>"""
+            + celsius + str(request.args)
+    )
 
 @app.route("/<int:celsius>")
 def faahrenheit_from(celsius):
